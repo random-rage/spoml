@@ -1,0 +1,13 @@
+Address     Size    Content
+
+0           12      Sizes
+12          4       Size of includes section
+16          4       Size of data section
+20          4       Size of code section
+24          4       Size of externs section
+28          I       Includes section
+28+I        D       Data section
+28+I+D      C       Code section
+28+I+D+C    E       Externs section
+
+Total size: 28+I+D+C+E bytes
