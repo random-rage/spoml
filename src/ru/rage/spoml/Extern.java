@@ -2,33 +2,39 @@ package ru.rage.spoml;
 
 public class Extern
 {
-    private String name;
-    private int    start, end;
+    private String _name;
+    private int    _start, _end;
 
     public Extern(String name, int start)
     {
-        this.name = name;
-        this.start = start;
-        this.end = -1;
+        _name = name;
+        _start = start;
+        _end = -1;
     }
 
     public String getName()
     {
-        return name;
+        return _name;
     }
 
     public int getStart()
     {
-        return start;
+        return _start;
     }
 
     public int getEnd()
     {
-        return end;
+        return _end;
     }
 
     public void setEnd(int end)
     {
-        this.end = end;
+        _end = end;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%s %d %d", _name, _start, _end);
     }
 }

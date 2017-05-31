@@ -2,28 +2,34 @@ package ru.rage.spoml;
 
 public class Include
 {
-    private String lib, name;
-    private int addr;
+    private String _lib, _name;
+    private int _addr;
 
     public Include(String lib, String name, int address)
     {
-        this.lib = lib;
-        this.name = name;
-        this.addr = address;
+        _lib = lib;
+        _name = name;
+        _addr = address;
     }
 
     public String getLib()
     {
-        return lib;
+        return _lib;
     }
 
     public String getName()
     {
-        return name;
+        return _name;
     }
 
     public int getAddr()
     {
-        return addr;
+        return _addr;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%s %s %d", _lib, _name, _addr);
     }
 }

@@ -52,6 +52,7 @@ public class Command
     {
         ByteBuffer bb = ByteBuffer.wrap(bytes);
         bb.order(ByteOrder.LITTLE_ENDIAN);
+
         int opcode = bb.get();
         int arg = bb.getInt();
 
@@ -148,10 +149,12 @@ public class Command
             return new byte[] { (byte)getOpcode() };
         else
         {
-            ByteBuffer bb = ByteBuffer.allocate(5);
+            ByteBuffer bb = ByteBuffer.allocate(Byte.BYTES + Integer.BYTES);
             bb.order(ByteOrder.LITTLE_ENDIAN);
+
             bb.put((byte)getOpcode());
             bb.putInt(_arg.getValue());
+
             return bb.array();
         }
     }
