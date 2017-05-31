@@ -1,6 +1,7 @@
 package ru.rage.spoml;
 
-public enum CmdType {
+public enum CmdType
+{
     NOP,
     ADD,
     SUB,

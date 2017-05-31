@@ -3,8 +3,8 @@ package ru.rage.spoml;
 public class Argument
 {
     private ArgType _type;
-    private String _arg;
-    private int _val;
+    private String  _arg;
+    private int     _val;
 
     public Argument(String arg)
     {

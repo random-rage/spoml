@@ -1,8 +1,9 @@
 package ru.rage.spoml;
 
-public class Extern {
+public class Extern
+{
     private String name;
-    private int start, end;
+    private int    start, end;
 
     public Extern(String name, int start)
     {
@@ -11,19 +12,23 @@ public class Extern {
         this.end = -1;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public int getStart() {
+    public int getStart()
+    {
         return start;
     }
 
-    public int getEnd() {
+    public int getEnd()
+    {
         return end;
     }
 
-    public void setEnd(int end) {
+    public void setEnd(int end)
+    {
         this.end = end;
     }
 }

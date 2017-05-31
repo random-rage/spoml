@@ -1,14 +1,16 @@
 package ru.rage.spoml;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 
 public class Command
 {
-    private CmdType _type;
+    private CmdType  _type;
     private Argument _arg;
-    private String _label;
+    private String   _label;
 
-    private static final ArrayList<String> _strs = new ArrayList<String>()
+    private static final ArrayList<String>  _strs = new ArrayList<String>()
     {{
         add("NOP");
         add("ADD");
@@ -41,8 +43,18 @@ public class Command
         add(CmdType.HLT);
     }};
 
-    public Command(int opcode, int arg)
+    /**
+     * Создаёт команду из массива байтов
+     *
+     * @param bytes массив из 5-ти байтов
+     */
+    public Command(byte[] bytes)
     {
+        ByteBuffer bb = ByteBuffer.wrap(bytes);
+        bb.order(ByteOrder.LITTLE_ENDIAN);
+        int opcode = bb.get();
+        int arg = bb.getInt();
+
         ArgType argType = getArgType(opcode);
         _type = _cmds.get(opcode);
         _arg = new Argument(arg, argType);
@@ -79,46 +91,9 @@ public class Command
         }
     }
 
-    /**
-     * Супербыдлокод
-     * @param type Тип команды
-     * @return Код операции
-     */
-    private static int getCode(CmdType type)
-    {
-        switch (type) {
-            case ADD:
-                return 1;
-            case SUB:
-                return 2;
-            case INC:
-                return 3;
-            case DEC:
-                return 4;
-            case LDR:
-                return 5;
-            case STR:
-                return 6;
-            case IN:
-                return 7;
-            case OUT:
-                return 8;
-            case JMP:
-                return 9;
-            case IFZ:
-                return 10;
-            case IFN:
-                return 11;
-            case HLT:
-                return 12;
-            default:
-                return 0;
-        }
-    }
-
     public int getOpcode()
     {
-        int opcode = getCode(_type);
+        int opcode = _cmds.indexOf(_type);
 
         if (_arg.getType() == ArgType.IMMEDIATE)
             opcode |= 0x10;
@@ -154,6 +129,30 @@ public class Command
     @Override
     public String toString()
     {
-        return _type.toString();
+        switch (_arg.getType())
+        {
+            case IMMEDIATE:
+                return _type.toString() + "\t" + _arg.toString();
+            case INDIRECT:
+                return _type.toString() + "\t[" + _arg.toString() + "]";
+            case CHAR:
+                return _type.toString() + "\t'" + ((char)_arg.getValue()) + "'";
+            default:
+                return _type.toString();
+        }
+    }
+
+    public byte[] toByteArray()
+    {
+        if (_arg.getType() == ArgType.NONE)
+            return new byte[] { (byte)getOpcode() };
+        else
+        {
+            ByteBuffer bb = ByteBuffer.allocate(5);
+            bb.order(ByteOrder.LITTLE_ENDIAN);
+            bb.put((byte)getOpcode());
+            bb.putInt(_arg.getValue());
+            return bb.array();
+        }
     }
 }

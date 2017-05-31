@@ -1,6 +1,7 @@
 package ru.rage.spoml;
 
-public enum ArgType {
+public enum ArgType
+{
     NONE,
     INDIRECT,
     IMMEDIATE,

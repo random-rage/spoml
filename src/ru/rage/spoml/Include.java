@@ -1,6 +1,7 @@
 package ru.rage.spoml;
 
-public class Include {
+public class Include
+{
     private String lib, name;
     private int addr;
 
@@ -11,15 +12,18 @@ public class Include {
         this.addr = address;
     }
 
-    public String getLib() {
+    public String getLib()
+    {
         return lib;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public int getAddr() {
+    public int getAddr()
+    {
         return addr;
     }
 }
