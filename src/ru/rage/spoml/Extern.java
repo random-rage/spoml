@@ -7,9 +7,14 @@ public class Extern
 
     public Extern(String name, int start)
     {
+        this(name, start, -1);
+    }
+
+    public Extern(String name, int start, int end)
+    {
         _name = name;
         _start = start;
-        _end = -1;
+        _end = end;
     }
 
     public String getName()

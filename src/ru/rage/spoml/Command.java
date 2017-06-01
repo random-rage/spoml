@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class Command
 {
+    public static final ByteOrder BYTE_ORDER = ByteOrder.LITTLE_ENDIAN;
+
     private CmdType  _type;
     private Argument _arg;
     private String   _label;
@@ -51,7 +53,7 @@ public class Command
     public Command(byte[] bytes)
     {
         ByteBuffer bb = ByteBuffer.wrap(bytes);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
+        bb.order(BYTE_ORDER);
 
         int opcode = bb.get();
         int arg = bb.getInt();
@@ -73,6 +75,13 @@ public class Command
         _label = label;
     }
 
+    /**
+     * Возвращает тип аргумента
+     *
+     * @param opcode код операции
+     *
+     * @return Тип аргумента команды
+     */
     public static ArgType getArgType(int opcode)
     {
         if ((opcode & 0x10) > 0)
@@ -92,6 +101,11 @@ public class Command
         }
     }
 
+    /**
+     * Возвращает код операции
+     *
+     * @return Код операции для команды
+     */
     public int getOpcode()
     {
         int opcode = _cmds.indexOf(_type);
@@ -127,6 +141,16 @@ public class Command
         return _type;
     }
 
+    /**
+     * Возвращает длину команды в зависимости от наличия аргумента
+     *
+     * @return Длина команды в байтах
+     */
+    public int length()
+    {
+        return Byte.BYTES + ((_arg.getType() == ArgType.NONE) ? 0 : Integer.BYTES);
+    }
+
     @Override
     public String toString()
     {
@@ -143,14 +167,19 @@ public class Command
         }
     }
 
+    /**
+     * Транслирует команду в машинный код
+     *
+     * @return Машинный код в байтах
+     */
     public byte[] toByteArray()
     {
         if (_arg.getType() == ArgType.NONE)
             return new byte[] { (byte)getOpcode() };
         else
         {
-            ByteBuffer bb = ByteBuffer.allocate(Byte.BYTES + Integer.BYTES);
-            bb.order(ByteOrder.LITTLE_ENDIAN);
+            ByteBuffer bb = ByteBuffer.allocateDirect(Byte.BYTES + Integer.BYTES);
+            bb.order(BYTE_ORDER);
 
             bb.put((byte)getOpcode());
             bb.putInt(_arg.getValue());

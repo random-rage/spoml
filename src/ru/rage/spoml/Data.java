@@ -39,8 +39,8 @@ public class Data
 
     public byte[] toByteArray()
     {
-        ByteBuffer bb = ByteBuffer.allocate(_len * Integer.BYTES);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
+        ByteBuffer bb = ByteBuffer.allocateDirect(_len * Integer.BYTES);
+        bb.order(Command.BYTE_ORDER);
 
         for (int i = 0; i < _len; i++)
             bb.putInt(_val);
