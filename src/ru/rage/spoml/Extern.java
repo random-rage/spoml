@@ -8,6 +8,14 @@ public class Extern
     private String _name;
     private int    _start, _end;
 
+    public Extern(String extern)
+    {
+        String[] e = extern.split(" ");
+        _name = e[0];
+        _start = Integer.parseInt(e[1]);
+        _end = Integer.parseInt(e[2]);
+    }
+
     public Extern(String name, int start)
     {
         this(name, start, -1);
