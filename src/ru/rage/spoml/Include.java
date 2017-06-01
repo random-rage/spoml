@@ -1,6 +1,8 @@
 package ru.rage.spoml;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,7 +11,8 @@ import java.util.List;
 
 public class Include
 {
-    public static final String FILE_EXT = ".smi";
+    public static final String  FILE_EXT     = ".smi";
+    public static final Charset FILE_CHARSET = StandardCharsets.UTF_8;
 
     private String _lib, _name;
     private int _addr;
@@ -68,11 +71,10 @@ public class Include
         bb.order(Command.BYTE_ORDER);
 
         int codeOffset = Integer.BYTES * 4 + bb.getInt() + bb.getInt(); // Смещение кода
-        int externsOffset = codeOffset + bb.getInt();               // Смещение внешних символов
+        int externsOffset = codeOffset + bb.getInt();                   // Смещение внешних символов
         int externsSize = bb.getInt();
 
-        String s = new String(file, externsOffset, externsSize);
-        String[] externs = s.split("[\\r\\n]+");
+        String[] externs = new String(file, externsOffset, externsSize, FILE_CHARSET).split("[\\r\\n]+");
         for (String extern : externs)
         {
             if (extern.length() < 5)

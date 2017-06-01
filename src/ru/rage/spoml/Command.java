@@ -47,22 +47,11 @@ public class Command
         add(CmdType.HLT);
     }};
 
-    /**
-     * Создаёт команду из массива байтов
-     *
-     * @param bytes массив из 5-ти байтов
-     */
-    public Command(byte[] bytes)
+    public Command(int opcode, Argument arg)
     {
-        ByteBuffer bb = ByteBuffer.wrap(bytes);
-        bb.order(BYTE_ORDER);
-
-        int opcode = bb.get();
-        int arg = bb.getInt();
-
-        ArgType argType = getArgType(opcode);
-        _type = _cmds.get(opcode);
-        _arg = new Argument(arg, argType);
+        _type = _cmds.get((opcode >= 0x10) ? (opcode & 0x0F) : opcode);
+        _arg = arg;
+        _label = null;
     }
 
     public Command(String type, String arg)
@@ -86,7 +75,7 @@ public class Command
      */
     public static ArgType getArgType(int opcode)
     {
-        if ((opcode & 0x10) > 0)
+        if (opcode >= 0x10)
             return ArgType.IMMEDIATE;
 
         CmdType cmd = _cmds.get(opcode);
