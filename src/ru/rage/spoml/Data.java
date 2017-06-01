@@ -1,10 +1,11 @@
 package ru.rage.spoml;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 public class Data
 {
+    public static final String FILE_EXT = ".smd";
+
     private String _name;
     private int    _val;
     private int    _len;
@@ -39,7 +40,7 @@ public class Data
 
     public byte[] toByteArray()
     {
-        ByteBuffer bb = ByteBuffer.allocateDirect(_len * Integer.BYTES);
+        ByteBuffer bb = ByteBuffer.allocate(_len * Integer.BYTES);
         bb.order(Command.BYTE_ORDER);
 
         for (int i = 0; i < _len; i++)

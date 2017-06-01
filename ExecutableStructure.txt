@@ -1,9 +1,9 @@
 Address     Size    Content
 
-0           4       Size of includes section
-4           4       Size of data section
-8           4       Size of code section
-12          4       Size of externs section
+0           4       I = Size of includes section
+4           4       D = Size of data section
+8           4       C = Size of code section
+12          4       E = Size of externs section
 16          I       Includes section
 16+I        D       Data section
 16+I+D      C       Code section

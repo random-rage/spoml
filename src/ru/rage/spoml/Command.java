@@ -7,6 +7,8 @@ import java.util.ArrayList;
 public class Command
 {
     public static final ByteOrder BYTE_ORDER = ByteOrder.LITTLE_ENDIAN;
+    public static final String FILE_EXT = ".smc";
+    public static final String EXECUTABLE_EXT = ".smx";
 
     private CmdType  _type;
     private Argument _arg;
@@ -178,7 +180,7 @@ public class Command
             return new byte[] { (byte)getOpcode() };
         else
         {
-            ByteBuffer bb = ByteBuffer.allocateDirect(Byte.BYTES + Integer.BYTES);
+            ByteBuffer bb = ByteBuffer.allocate(Byte.BYTES + Integer.BYTES);
             bb.order(BYTE_ORDER);
 
             bb.put((byte)getOpcode());

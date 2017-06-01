@@ -2,6 +2,9 @@ package ru.rage.spoml;
 
 public class Extern
 {
+    public static final String FILE_EXT = ".sme";
+    public static final String LIBRARY_EXT = ".sml";
+
     private String _name;
     private int    _start, _end;
 

@@ -2,6 +2,8 @@ package ru.rage.spoml;
 
 public class Include
 {
+    public static final String FILE_EXT = ".smi";
+
     private String _lib, _name;
     private int _addr;
 
